@@ -33,7 +33,7 @@ const INVOICE_STATUSES: Record<InvoiceStatus, { name: string; color: string }> =
 export function OrganizationInvoicesTab({ organization }: OrganizationTabProps) {
 	const invoiceQuery = useCloudInvoicesQuery(organization.id);
 
-	const downloadInvoice = useStable(async (invoice: CloudInvoice) => {
+	const _downloadInvoice = useStable(async (invoice: CloudInvoice) => {
 		const filename = `surrealdb-invoice-${format(new Date(invoice.date), "yyyy-MM-dd")}.pdf`;
 
 		await adapter.saveFile("Save invoice", filename, [PDF_FILTER], () =>
@@ -126,8 +126,9 @@ export function OrganizationInvoicesTab({ organization }: OrganizationTabProps) 
 												style={{ textWrap: "nowrap" }}
 											>
 												<ActionIcon
-													aria-label="Download invoice PDF"
-													onClick={() => downloadInvoice(invoice)}
+													// aria-label="Download invoice PDF"
+													// onClick={() => downloadInvoice(invoice)}
+													onClick={() => adapter.openUrl(invoice.url)}
 												>
 													<Icon path={iconDownload} />
 												</ActionIcon>
