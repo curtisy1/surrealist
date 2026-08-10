@@ -1,4 +1,4 @@
-import { Box, Button, Group, SimpleGrid, Skeleton, Text, Transition } from "@mantine/core";
+import { Button, Group, SimpleGrid, Skeleton, Text, Transition } from "@mantine/core";
 import {
 	Icon,
 	iconArrowUpRight,
@@ -31,12 +31,12 @@ import { Connection } from "~/types";
 import { fuzzyMatch } from "~/util/helpers";
 import { dispatchIntent } from "~/util/intents";
 import { PageContainer } from "../../components/PageContainer";
-import { CloudAlert } from "./banner";
 import { StartBlog } from "./content/blog";
 import { StartCloud } from "./content/cloud";
 import { StartConnection } from "./content/connection";
 import { OrganizationTile } from "./content/organization";
 import { StartResource } from "./content/resource";
+import { StudioCallToAction } from "./content/studio";
 
 const GRID_COLUMNS = {
 	xs: 1,
@@ -49,7 +49,7 @@ export function OverviewPage() {
 	const { signIn, isAuthenticated, isLoading: isAuthLoading } = useAuthentication();
 
 	const newsQuery = useLatestNewsQuery();
-	const bannerQuery = useCloudBannerQuery();
+	const _bannerQuery = useCloudBannerQuery();
 	const navigateConnection = useConnectionNavigator();
 
 	const connections = useConnectionList();
@@ -64,7 +64,7 @@ export function OverviewPage() {
 		navigateConnection(con.id);
 	});
 
-	const dismissedBanners = useConfigStore((s) => s.dismissedBanners);
+	const _dismissedBanners = useConfigStore((s) => s.dismissedBanners);
 	const newsPosts = newsQuery.data?.slice(0, 2) ?? [];
 
 	const [orgSearch, setOrgSearch] = useState("");
@@ -106,7 +106,10 @@ export function OverviewPage() {
 					<PageContainer style={style}>
 						<SectionTitle>Overview</SectionTitle>
 
-						{bannerQuery.isSuccess &&
+						{/* Permanent notice about the move to SurrealDB Studio */}
+						<StudioCallToAction mb={36} />
+
+						{/*{bannerQuery.isSuccess &&
 							bannerQuery.data.length > 0 &&
 							(() => {
 								const visibleBanners = bannerQuery.data.filter(
@@ -125,7 +128,7 @@ export function OverviewPage() {
 										</Box>
 									)
 								);
-							})()}
+							})()}*/}
 
 						{showCloud && (
 							<>
